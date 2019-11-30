@@ -1,9 +1,9 @@
 <template>
-    <div class="row">
-        <div class="card col-md-4 mt-4" v-for="post in posts" :key="post.id">
+    <div>
+        <div class="card mt-4" v-for="post in posts" :key="post.id">
             <div class="card-body">
                 <h5 class="card-title">{{ post.title }}</h5>
-                <p class="card-text">{{ post.text }}</p>
+                <button class="btn btn-default btn-sm" @click="viewSinglePost(post.id)">View Post</button>
             </div>
         </div>
     </div>
@@ -23,6 +23,12 @@ export default {
         postsService.getAll()
             .then(response =>
                 this.posts = response.data)
+    },
+
+    methods: {
+        viewSinglePost(id) {
+            this.$router.push({ name: 'single-post', params: { id }})
+        }
     }
 }
 </script>
