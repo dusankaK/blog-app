@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="card mt-4" v-for="post in posts" :key="post.id">
+        <div class="card mt-4" v-for="post in posts.slice(0).reverse()" :key="post.id">
             <div class="card-body">
                 <h5 class="card-title">{{ post.title }}</h5>
                 <button class="btn btn-default btn-sm" @click="viewSinglePost(post.id)">View Post</button>
