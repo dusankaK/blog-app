@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2 class="text-center mt-4 ">Add new post</h2>
+        <h2 class="text-center mt-4 ">{{ isEditing ? 'Edit post' : 'Add new post'}}</h2>
             <form @submit.prevent="onSubmit" @reset="resetForm">
                 <div class="form-group">
                     <label for="title">Title</label>
@@ -23,7 +23,7 @@
 
                 </div>
                 <div class="form-group">
-                    <button type="submit" name="submit" class="btn btn-success">Submit</button>
+                    <button type="submit" name="submit" class="btn btn-success">{{ isEditing ? 'Edit' : 'Submit'}}</button>
                     <button type="reset" name="reset" class="btn btn-danger ml-3">Reset</button>
                     
                 </div>
@@ -44,17 +44,42 @@ export default {
             errors: {
                 title: false,
                 text: false
-            }
+            },
+            isEditing: false
+        }
+    },
+
+    created() {
+        if(this.$route.params.id) {
+            this.isEditing = true
+            postsService.get(this.$route.params.id)
+            .then(response => {
+                this.newPost = response.data
+            })
         }
     },
 
     methods: {
         onSubmit() {
+            if(this.$route.params.id){
+                this.editPost()
+            }else {
+                this.addPost()
+            }
+
+        },
+
+        addPost() {
             if(this.hasErrors()) {
                 return
             }
             this.newPost.createdAt = moment()
             postsService.add(this.newPost)
+            this.$router.push({ name: 'posts'})
+        },
+
+        editPost() {
+            postsService.edit(this.newPost)
             this.$router.push({ name: 'posts'})
         },
 

@@ -4,6 +4,8 @@
             <div class="card-body">
                 <h5 class="card-title">{{ post.title }}</h5>
                 <button class="btn btn-default btn-sm" @click="viewSinglePost(post.id)">View Post</button>
+                <button class="btn btn-danger btn-sm ml-3" @click="editPost(post.id)">Edit Post</button>
+                
             </div>
         </div>
     </div>
@@ -28,6 +30,9 @@ export default {
     methods: {
         viewSinglePost(id) {
             this.$router.push({ name: 'single-post', params: { id }})
+        },
+        editPost(id) {
+            this.$router.push({ name: 'edit', params: { id }})
         }
     }
 }
