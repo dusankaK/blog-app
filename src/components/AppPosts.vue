@@ -4,7 +4,8 @@
             <div class="card-body">
                 <h5 class="card-title">{{ post.title }}</h5>
                 <button class="btn btn-default btn-sm" @click="viewSinglePost(post.id)">View Post</button>
-                <button class="btn btn-danger btn-sm ml-3" @click="editPost(post.id)">Edit Post</button>
+                <button class="btn btn-warning btn-sm ml-3" @click="editPost(post.id)">Edit Post</button>
+                <button class="btn btn-danger btn-sm ml-3" @click="deletePost(post.id)">Delete</button>
                 
             </div>
         </div>
@@ -27,7 +28,19 @@ export default {
                 this.posts = response.data)
     },
 
+    watch: {
+        posts() {
+            postsService.getAll()
+                .then(response => {
+                    this.posts = response.data
+            })
+        }
+    },
+
     methods: {
+        deletePost(id) {
+            postsService.delete(id)
+        },
         viewSinglePost(id) {
             this.$router.push({ name: 'single-post', params: { id }})
         },
